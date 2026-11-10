@@ -7,7 +7,9 @@ import android.webkit.WebViewClient;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.view.KeyEvent;
-import android.view.WindowManager;\nimport android.view.WindowInsets;\nimport android.view.WindowInsetsController;
+import android.view.WindowManager;\n
+import android.view.WindowInsets;\n
+import android.view.WindowInsetsController;
 import android.view.View;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
