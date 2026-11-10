@@ -7,7 +7,7 @@ import android.webkit.WebViewClient;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.view.KeyEvent;
-import android.view.WindowManager;
+import android.view.WindowManager;\nimport android.view.WindowInsets;\nimport android.view.WindowInsetsController;
 import android.view.View;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -74,6 +74,7 @@ public class MainActivity extends androidx.appcompat.app.AppCompatActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
+        enableFullscreen();
 
         webView = findViewById(R.id.webView);
         progressBar = findViewById(R.id.progressBar);
@@ -208,6 +209,28 @@ public class MainActivity extends androidx.appcompat.app.AppCompatActivity {
         // Load directly; ConnectivityManager can be unreliable on some devices/VPNs.
         // WebView will show its own error page if the connection is actually unavailable.
         webView.loadUrl(WEBSITE_URL);
+    }
+
+    private void enableFullscreen() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            getWindow().setDecorFitsSystemWindows(false);
+            WindowInsetsController controller = getWindow().getInsetsController();
+            if (controller != null) {
+                controller.hide(WindowInsets.Type.statusBars() | WindowInsets.Type.navigationBars());
+                controller.setSystemBarsBehavior(
+                    WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+                );
+            }
+        } else {
+            getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            );
+        }
     }
 
     private void checkAndShowRateDialog(int targetLaunches) {
@@ -491,6 +514,7 @@ public class MainActivity extends androidx.appcompat.app.AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        enableFullscreen();
         webView.onResume();
     }
 
