@@ -1,0 +1,40 @@
+
+{
+  "name": "connect-desktop",
+  "version": "1.1.1",
+  "description": "Connect — общайтесь так, будто вы рядом!",
+  "main": "main.js",
+  "author": "Connect",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "22.3.27",
+    "electron-builder": "22.14.13"
+  },
+  "build": {
+    "appId": "dev.pntr.connect",
+    "productName": "Connect",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "package.json"
+    ],
+    "win": {
+      "target": [
+        "nsis"
+      ],
+      "icon": "connect-icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
+    }
+  }
+}
